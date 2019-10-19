@@ -59,7 +59,6 @@ class Enemy(object):
             pygame.draw.rect(win, (255, 0, 0), (self.x, self.y, (self.width - 30), self.height - 68))
             pygame.draw.rect(win, (255, 0, 0), (self.x + 30, self.y, (self.width - 30), self.height - 68))
             self.hitbox = (self.x, self.y, 39, 69)
-            #pygame.draw.rect(win, (255, 0, 0), self.hitbox, 2)
 
     def hit(self):
         if self.health > 0:

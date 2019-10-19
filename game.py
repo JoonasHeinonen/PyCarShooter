@@ -60,12 +60,14 @@ def redrawGameWindow():
     text = scoreNormalFont.render('Score: ' + str(score), 1, (0, 0, 0))
     pressSpaceToPlay = scoreNormalFont.render('Press Space to play!', 1, (255, 255, 255))
     scoreText = scoreNormalFont.render('Your score: ' + str(score), 1, (255, 255, 255))
+    creditsText = scoreNormalFont.render('Developer: Joonas Heinonen', 1, (255, 255, 255))
     pygame.draw.rect(win, (100, 100, 100), (50, 0, (400), MAP_SIZE))
     pygame.draw.rect(win, (255, 255, 255), (55, 0, (10), MAP_SIZE))
     pygame.draw.rect(win, (255, 255, 255), (435, 0, (10), MAP_SIZE))
     row0.draw(win)
     row1.draw(win)
     if (start == False and gameOver == False):
+        win.blit(creditsText, (140, 180))
         win.blit(pressSpaceToPlay, (175, 245))
     elif (start == True and gameOver == False):
         for bullet in bullets:
@@ -80,6 +82,7 @@ def redrawGameWindow():
     elif (start == False and gameOver == True):
         player.x = -500
         player.y = 800
+        win.blit(creditsText, (140, 180))
         win.blit(scoreText, (195, 245))
         win.blit(pressSpaceToPlay, (175, 210))
     pygame.display.update()
@@ -94,6 +97,9 @@ while run:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE]:
         start = True
+
+    if keys[pygame.K_ESCAPE]:
+            sys.exit()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -130,9 +136,6 @@ while run:
             else:
                 bullets.pop(bullets.index(bullet))
 
-        if keys[pygame.K_ESCAPE]:
-            sys.exit()
-
         if keys[pygame.K_RCTRL] and shootLoop == 0:
             gunSound.play()
             bullets.append(Projectile(round(player.x + player.width // 2), round(player.y + (-10) // 2), 5, (255, 255, 0), 1))
@@ -148,6 +151,8 @@ while run:
             player.y += vel
 
         if (player.health == 0):
+            enemy0.x = 1000
+            enemy0.y = 1000
             enemy1.x = 1000
             enemy1.y = 1000
             enemy2.x = 1000

@@ -31,8 +31,6 @@ class Player(object):
     def hit(self):
         if self.health > 0:
             self.health -= 1
-            self.x = self.getNewX()
-            self.y = 410
 
     def getNewX(self):
         x = random.randrange(50, 400)
