@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 from player import Player
 from enemy import Enemy
 from row import Row
@@ -14,6 +15,9 @@ win = pygame.display.set_mode((MAP_SIZE, MAP_SIZE))
 pygame.display.set_caption("Game")
 
 clock = pygame.time.Clock()
+
+gameTime = time.time()
+finalTime = 0
 
 # States
 
@@ -57,10 +61,14 @@ enemies = [enemy0, enemy1, enemy2]
 def redrawGameWindow():
     # Background / Road 
     win.fill((0, 160, 0))
+    endTime = time.time()
+    length = str(finalTime if gameOver else int(endTime - gameTime))
     text = scoreNormalFont.render('Score: ' + str(score), 1, (0, 0, 0))
+    timeText = scoreNormalFont.render('Time: ' + length, 1, (0, 0, 0))
     pressSpaceToPlay = scoreNormalFont.render('Press Space to play!', 1, (255, 255, 255))
     scoreText = scoreNormalFont.render('Your score: ' + str(score), 1, (255, 255, 255))
-    creditsText = scoreNormalFont.render('Developer: Joonas Heinonen', 1, (255, 255, 255))
+    finalTimeText = scoreNormalFont.render('Your time: ' + str(finalTime), 1, (255, 255, 255))
+    creditsText = scoreNormalFont.render('Developer: Girdeux', 1, (255, 255, 255))
     pygame.draw.rect(win, (100, 100, 100), (50, 0, (400), MAP_SIZE))
     pygame.draw.rect(win, (255, 255, 255), (55, 0, (10), MAP_SIZE))
     pygame.draw.rect(win, (255, 255, 255), (435, 0, (10), MAP_SIZE))
@@ -79,12 +87,14 @@ def redrawGameWindow():
             enemy2.draw(win)
         player.draw(win)
         win.blit(text, (10, 10))
+        win.blit(timeText, (420, 10))
     elif (start == False and gameOver == True):
         player.x = -500
         player.y = 800
-        win.blit(creditsText, (140, 180))
-        win.blit(scoreText, (195, 245))
-        win.blit(pressSpaceToPlay, (175, 210))
+        win.blit(pressSpaceToPlay, (175, 275))
+        win.blit(scoreText, (140, 245))
+        win.blit(finalTimeText, (140, 215))
+        win.blit(creditsText, (140, 175))
     pygame.display.update()
 
 # mainloop
@@ -161,11 +171,14 @@ while run:
             player.y = 3000
             start = False
             gameOver = True
+            finalTime = int(time.time() - gameTime)
 
     if (gameOver == True):
         if keys[pygame.K_SPACE]:
             start = True
             gameOver = False
+            gameTime = time.time()
+            finalTime = 0
             player.x = x
             player.y = y
             player.health = 6
