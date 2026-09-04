@@ -5,6 +5,7 @@ from player import Player
 from enemy import Enemy
 from row import Row
 from projectile import Projectile
+from button import Button
 
 pygame.init()
 
@@ -95,6 +96,8 @@ def redrawGameWindow():
         win.blit(scoreText, (140, 245))
         win.blit(finalTimeText, (140, 215))
         win.blit(creditsText, (140, 175))
+    mutebutton = Button((0, 0, 0), 5, 455, 40, 40, '?', (0, 255, 255), 30)
+    mutebutton.draw_button(win)
     pygame.display.update()
 
 # mainloop
