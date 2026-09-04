@@ -42,16 +42,16 @@ class Enemy(object):
     def draw(self, win):
         self.move()
         if self.visible:
-            if (self.isPoliceCar == False):
+            if (self.isPoliceCar is False):
                 pygame.draw.rect(win, self.carColor, (self.x , self.y, (self.width), self.height))
-            elif (self.isPoliceCar == True):
+            elif (self.isPoliceCar is True):
                 pygame.draw.rect(win, (0, 0, 0), (self.x , self.y, (self.width), self.height))                
             pygame.draw.rect(win, (255, 255, 0), (self.x, self.y + 68, (self.width - 30), self.height - 68))
             pygame.draw.rect(win, (255, 255, 0), (self.x + 30, self.y + 68, (self.width - 30), self.height - 68))
             pygame.draw.rect(win, (0, 0, 255), (self.x + 1, self.y + 5, (self.width - 2), self.height - 20))
-            if (self.isPoliceCar == False):
+            if (self.isPoliceCar is False):
                 pygame.draw.rect(win, self.carColor, (self.x + 1, self.y + 10, (self.width - 2), self.height - 35))
-            elif (self.isPoliceCar == True):
+            elif (self.isPoliceCar is True):
                 pygame.draw.rect(win, (255, 255, 255), (self.x + 1, self.y + 10, (self.width - 2), self.height - 35))         
                 pygame.draw.rect(win, (140, 140, 140), (self.x +4, self.y + 22, (self.width - 8), self.height - 60))
                 pygame.draw.rect(win, self.light1, (self.x + 4, self.y + 22, (self.width - 28), self.height - 60))
@@ -68,9 +68,9 @@ class Enemy(object):
             self.respawn()
 
     def move(self):
-        if (self.isPoliceCar == False):
+        if (self.isPoliceCar is False):
             self.y += self.vel * 1.1
-        elif (self.isPoliceCar == True):
+        elif (self.isPoliceCar is True):
             self.y += self.vel * 1.5
 
         if (self.y > 500):
