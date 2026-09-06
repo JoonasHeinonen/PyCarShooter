@@ -32,10 +32,8 @@ class Enemy(object):
     def randPolice(self):
         rand = random.randrange(0, 2)
         if (rand == 0):
-            print(0)
             return False
         elif (rand == 1):
-            print(1)
             return True
         return False
 

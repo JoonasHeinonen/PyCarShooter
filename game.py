@@ -18,7 +18,7 @@ pygame.display.set_caption("Game")
 clock = pygame.time.Clock()
 
 gameTime = time.time()
-finalTime = 0
+final_time = 0
 
 # States
 
@@ -27,9 +27,20 @@ gameOver = False
 
 # Sounds
 
+soundVolume = 1
+
 gunSound = pygame.mixer.Sound('sounds/gun.wav')
 hitSound = pygame.mixer.Sound('sounds/hit.wav')
 destroyedSound = pygame.mixer.Sound('sounds/destroyed.wav')
+
+def set_sound_volume(volume):
+    gunSound.set_volume(volume)
+    hitSound.set_volume(volume)
+    destroyedSound.set_volume(volume)
+
+set_sound_volume(soundVolume)
+
+IS_GAME_MUTED = False
 
 # music = pygame.mixer.music.load('music.mp3')
 # pygame.mixer.music.play(-1)
@@ -52,6 +63,7 @@ enemy2 = Enemy(-140, player)
 
 row0 = Row(245, 0, 10, 60)
 row1 = Row(245, 280, 10, 60)
+mutebutton = Button((0, 0, 0), 5, 455, 40, 40, '?', (0, 255, 255), 30)
 
 shootLoop = 0
 bullets = []
@@ -63,12 +75,12 @@ def redrawGameWindow():
     # Background / Road 
     win.fill((0, 160, 0))
     endTime = time.time()
-    length = str(finalTime if gameOver else int(endTime - gameTime))
+    length = str(final_time if gameOver else int(endTime - gameTime))
     text = scoreNormalFont.render('Score: ' + str(score), 1, (0, 0, 0))
     timeText = scoreNormalFont.render('Time: ' + length, 1, (0, 0, 0))
     pressSpaceToPlay = scoreNormalFont.render('Press Space to play!', 1, (255, 255, 255))
     scoreText = scoreNormalFont.render('Your score: ' + str(score), 1, (255, 255, 255))
-    finalTimeText = scoreNormalFont.render('Your time: ' + str(finalTime), 1, (255, 255, 255))
+    finalTimeText = scoreNormalFont.render('Your time: ' + str(final_time), 1, (255, 255, 255))
     creditsText = scoreNormalFont.render('Developer: Girdeux', 1, (255, 255, 255))
     pygame.draw.rect(win, (100, 100, 100), (50, 0, (400), MAP_SIZE))
     pygame.draw.rect(win, (255, 255, 255), (55, 0, (10), MAP_SIZE))
@@ -96,7 +108,6 @@ def redrawGameWindow():
         win.blit(scoreText, (140, 245))
         win.blit(finalTimeText, (140, 215))
         win.blit(creditsText, (140, 175))
-    mutebutton = Button((0, 0, 0), 5, 455, 40, 40, '?', (0, 255, 255), 30)
     mutebutton.draw_button(win)
     pygame.display.update()
 
@@ -117,6 +128,9 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if mutebutton.click_button(event):
+            soundVolume = 0 if soundVolume == 1 else 1
+            set_sound_volume(soundVolume)
 
     if (start == True):
         for enemy in enemies:
@@ -174,14 +188,14 @@ while run:
             player.y = 3000
             start = False
             gameOver = True
-            finalTime = int(time.time() - gameTime)
+            final_time = int(time.time() - gameTime)
 
     if (gameOver == True):
         if keys[pygame.K_SPACE]:
             start = True
             gameOver = False
             gameTime = time.time()
-            finalTime = 0
+            final_time = 0
             player.x = x
             player.y = y
             player.health = 6
@@ -196,6 +210,5 @@ while run:
         row1.y = -60
 
     redrawGameWindow()
-    
 
 pygame.quit()

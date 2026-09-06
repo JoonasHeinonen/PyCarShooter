@@ -20,3 +20,13 @@ class Button:
             font = pygame.font.SysFont('arial', self.font_size)
             text = font.render(self.text, True, self.text_color)
             win.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
+
+    def click_button(self, event):
+        """Returns True when this button is clicked."""
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return False
+
+        mouse_pos = event.pos
+        return (self.x <= mouse_pos[0] <= self.x + self.width
+                and self.y <= mouse_pos[1] <= self.y + self.height)
+    
